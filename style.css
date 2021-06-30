@@ -1,8 +1,14 @@
+* {
+	margin: 0;
+	padding: 0;
+}
+
 .fullScreen {
 	display: flex;
-	margin-top: 1rem;
+	margin-top: 3rem;
 	font-family: Verdana, Geneva, Tahoma, sans-serif;
 	justify-content: center;
+	gap: 2rem;
 }
 
 .mainImage {
@@ -27,17 +33,28 @@ ul {
 	list-style-type: none;
 }
 
+.imageList {
+	width: 22%;
+}
+
+.imageContainer {
+	width: 30%;
+}
+
+.captionForImage {
+	width: 100%;
+}
+
 li {
 	display: flex;
-	justify-content: flex-start;
 	height: 3.5rem;
-	width: 25rem;
+	width: 100%;
 	border: none;
 	border-radius: 0.3rem;
 }
 
 li > img {
-	width: 12%;
+	width: 3rem;
 	height: 3rem;
 	margin-left: 0.5em;
 	margin-right: 0.5em;
@@ -46,10 +63,27 @@ li > img {
 }
 
 li > p {
-	width: 85%;
+	width: 80%;
+	/* max-width: 100%; */
+	/* overflow: hidden; */
+	align-self: center;
+	white-space: nowrap;
 }
 
-@media (max-width: 1024px) {
+.mainImage {
+	width: 100%;
+}
+
+@media (max-width: 1100px) {
+	.imageList {
+		width: 30%;
+	}
+
+	.imageContainer {
+		width: 40%;
+	}
+}
+/* @media (max-width: 1024px) {
 	.fullScreen {
 		flex-direction: column;
 	}
@@ -70,11 +104,16 @@ li > p {
 		height: 50%;
 		align-self: center;
 	}
-}
+} */
 
 @media (max-width: 768px) {
 	.fullScreen {
 		flex-direction: column;
+		align-items: center;
+	}
+
+	.imageList {
+		width: 60%;
 	}
 
 	.mainImage {
@@ -89,7 +128,7 @@ li > p {
 
 	.imageContainer {
 		align-items: center;
-		width: 90%;
+		width: 70%;
 		height: 50%;
 		align-self: center;
 	}
