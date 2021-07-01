@@ -6,20 +6,11 @@ let captionForImage = document.querySelector(".captionForImage");
 
 let displayIndex = 0;
 
-// function truncatedString(titleOfImage) {
-// 	if (titleOfImage.length > 25) {
-// 		let prefix = titleOfImage.slice(0, 26);
-// 		prefix += "....";
-// 		prefix += titleOfImage.slice(titleOfImage.length - 9, titleOfImage.length);
-// 		titleOfImage = prefix;
-// 	}
-// 	return titleOfImage;
-// }
-
 function truncatedString() {
 	document.querySelectorAll("li").forEach((item, index) => {
 		let paragraph = item.querySelector("p");
 		let imageName = listOfImages[index]["title"];
+		paragraph.textContent = imageName;
 
 		if (paragraph.scrollWidth <= paragraph.clientWidth) return;
 
@@ -55,9 +46,7 @@ listOfImages.forEach((image, index) => {
 	imageEntry.alt = image.alt;
 
 	imageName.innerHTML = image.title;
-	// imageName.setAttribute("aria-label", image.title);
-
-	// imageName.setAttribute("tabindex", "-1");
+	imageName.setAttribute("aria-hidden", "true");
 
 	listEntry.append(imageEntry);
 	listEntry.append(imageName);
@@ -79,14 +68,13 @@ listOfImages.forEach((image, index) => {
 
 truncatedString();
 window.addEventListener("resize", truncatedString);
-
 showImage(0);
 
 document.addEventListener("keydown", (event) => {
-	if (event.key == "ArrowUp") {
+	if (event.key == "ArrowUp" || event.key == "ArrowLeft") {
 		if (displayIndex == 0) showImage(listOfImages.length - 1);
 		else showImage(displayIndex - 1);
-	} else if (event.key == "ArrowDown")
+	} else if (event.key == "ArrowDown" || event.key == "ArrowRight")
 		showImage((displayIndex + 1) % listOfImages.length);
 });
 
