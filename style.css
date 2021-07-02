@@ -36,6 +36,7 @@ ul {
 
 .imageList {
 	width: 22%;
+	height: fit-content;
 }
 
 .imageContainer {

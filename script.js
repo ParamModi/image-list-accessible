@@ -1,8 +1,7 @@
 import listOfImages from "./assets/imageDetails.js";
 
 let mainList = document.querySelector(".imageList");
-let mainImage = document.querySelector(".mainImage");
-let captionForImage = document.querySelector(".captionForImage");
+let fullScreen = document.querySelector(".fullScreen");
 
 let displayIndex = 0;
 
@@ -37,7 +36,8 @@ function truncatedString() {
 	});
 }
 
-listOfImages.forEach((image, index) => {
+//Create Element for list Entry
+function createListElement(image, index) {
 	let listEntry = document.createElement("li");
 	let imageEntry = document.createElement("img");
 	let imageName = document.createElement("p");
@@ -52,7 +52,7 @@ listOfImages.forEach((image, index) => {
 	listEntry.append(imageName);
 
 	listEntry.setAttribute("role", "tab");
-	listEntry.setAttribute("aria-controls", "mainDisplay");
+	listEntry.setAttribute("aria-controls", "panel" + image.title);
 	listEntry.setAttribute("tabindex", "0");
 	listEntry.setAttribute("aria-selected", "false");
 	listEntry.setAttribute("id", image.title);
@@ -60,10 +60,39 @@ listOfImages.forEach((image, index) => {
 	listEntry.addEventListener("click", () => {
 		showImage(index);
 	});
-	listEntry.addEventListener("focus", () => {
-		showImage(index);
-	});
-	mainList.append(listEntry);
+	return listEntry;
+}
+
+//Create Element for main Image
+function createPanelElement(image) {
+	let displayFigure = document.createElement("figure");
+	displayFigure.setAttribute("class", "imageContainer");
+	displayFigure.setAttribute("role", "tabpanel");
+	displayFigure.setAttribute("tabindex", "0");
+	displayFigure.setAttribute("id", "panel" + image.title);
+
+	let displayImage = document.createElement("img");
+	displayImage.setAttribute("class", "mainImage");
+	displayImage.src = image.source;
+	displayImage.alt = image.alt;
+	displayImage.title = image.alt;
+
+	let displayCaption = document.createElement("figcaption");
+	displayCaption.setAttribute("class", "captionForImage");
+	displayCaption.textContent = image.title;
+
+	displayFigure.append(displayImage);
+	displayFigure.append(displayCaption);
+
+	displayFigure.setAttribute("hidden", "true");
+	displayFigure.setAttribute("aria-labelledby", image.title);
+
+	return displayFigure;
+}
+
+listOfImages.forEach((image, index) => {
+	mainList.append(createListElement(image, index));
+	fullScreen.append(createPanelElement(image));
 });
 
 truncatedString();
@@ -76,6 +105,7 @@ document.addEventListener("keydown", (event) => {
 		else showImage(displayIndex - 1);
 	} else if (event.key == "ArrowDown" || event.key == "ArrowRight")
 		showImage((displayIndex + 1) % listOfImages.length);
+	else if (event.key == "Enter") document.activeElement.click();
 });
 
 function showImage(newIndex) {
@@ -87,13 +117,8 @@ function showImage(newIndex) {
 	mainList.childNodes[newIndex].focus();
 
 	document
-		.getElementById("mainDisplay")
-		.setAttribute(
-			"aria-labelledby",
-			mainList.childNodes[newIndex].getAttribute("id")
-		);
-	mainImage.src = listOfImages[newIndex].source;
-	mainImage.alt = listOfImages[newIndex].alt;
-	captionForImage.innerHTML = listOfImages[newIndex].title;
+		.querySelectorAll("figure")
+		[displayIndex].setAttribute("hidden", "true");
+	document.querySelectorAll("figure")[newIndex].removeAttribute("hidden");
 	displayIndex = newIndex;
 }
