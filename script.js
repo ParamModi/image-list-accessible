@@ -52,10 +52,13 @@ function createListElement(image, index) {
 	listEntry.append(imageName);
 
 	listEntry.setAttribute("role", "tab");
-	listEntry.setAttribute("aria-controls", "panel" + image.title);
+	listEntry.setAttribute(
+		"aria-controls",
+		"panel" + image.title.trim().split(" ").join("")
+	);
 	listEntry.setAttribute("tabindex", "0");
 	listEntry.setAttribute("aria-selected", "false");
-	listEntry.setAttribute("id", image.title);
+	listEntry.setAttribute("id", image.title.trim().split(" ").join(""));
 
 	listEntry.addEventListener("click", () => {
 		showImage(index);
@@ -69,7 +72,10 @@ function createPanelElement(image) {
 	displayFigure.setAttribute("class", "imageContainer");
 	displayFigure.setAttribute("role", "tabpanel");
 	displayFigure.setAttribute("tabindex", "0");
-	displayFigure.setAttribute("id", "panel" + image.title);
+	displayFigure.setAttribute(
+		"id",
+		"panel" + image.title.trim().split(" ").join("")
+	);
 
 	let displayImage = document.createElement("img");
 	displayImage.setAttribute("class", "mainImage");
@@ -85,7 +91,10 @@ function createPanelElement(image) {
 	displayFigure.append(displayCaption);
 
 	displayFigure.setAttribute("hidden", "true");
-	displayFigure.setAttribute("aria-labelledby", image.title);
+	displayFigure.setAttribute(
+		"aria-labelledby",
+		image.title.trim().split(" ").join("")
+	);
 
 	return displayFigure;
 }
